@@ -49,8 +49,8 @@ def fetch_rsp_entries_for_date(d):
     return entries
 
 def main():
-    start = datetime(2013, 3, 1)
-    end   = datetime(2024, 8, 31)
+    start = datetime(2013, 3, 1)    # Start date for LOFAR catalog
+    end   = datetime(2024, 8, 31)   # End date for LOFAR catalog
     all_entries = []
 
     for single_date in daterange(start, end):

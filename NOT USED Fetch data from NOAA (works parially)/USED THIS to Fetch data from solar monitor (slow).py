@@ -65,9 +65,9 @@ def main():
             print("No entries found for {}".format(single_date.strftime("%Y-%m-%d")))
 
     # Save to JSON file
-    with open('rsp_events.json', 'w') as f:
+    with open('rsp_events_new.json', 'w') as f:
         json.dump(all_entries, f, indent=2)
-    print(f"\nSaved {len(all_entries)} entries to rsp_events.json")
+    print(f"\nSaved {len(all_entries)} entries to rsp_events_new.json")
 
 if __name__ == "__main__":
     main()

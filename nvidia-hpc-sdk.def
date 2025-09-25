@@ -1,0 +1,15 @@
+BootStrap: HPC-SDK
+From: nvcr.io/nvidia/nvhpc:25.5-devel-cuda12.9-ubuntu22.04
+
+%post
+   apt-get -y update
+   mkdir /def_file
+   cd /def_file
+   git clone https://github.com/AddyAde10/LOFAR-AI-detection-System-for-Astron/blob/main/nvidia-hpc-sdk.def_file
+   apt install pip
+   pip install jupyterlab pandas docopt
+   python3.9 -m venv lofarai/
+   
+%runscript
+   apt update
+   source test_venv/bin/activate

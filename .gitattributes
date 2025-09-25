@@ -1,2 +1,4 @@
 Spider[[:space:]]GPU[[:space:]]files[[:space:]]backup/** filter=lfs diff=lfs merge=lfs -text
+NOT[[:space:]]USED[[:space:]]Fetch[[:space:]]data[[:space:]]from[[:space:]]NOAA[[:space:]](works[[:space:]]parially)/** filter=lfs diff=lfs merge=lfs -text
+USED[[:space:]]Labelling[[:space:]]the[[:space:]]timestamps[[:space:]]from[[:space:]]NOAA,Type2,Prev[[:space:]]labels/** filter=lfs diff=lfs merge=lfs -text
 *.ipynb filter=lfs diff=lfs merge=lfs -text

@@ -149,7 +149,7 @@ These scripts orchestrate training on **SURF Spider** (A100 GPU cluster). Each h
 | 4 | **Type IV** | Broadband continuum emission following large flares |
 | 5 | **Type V** | Continuum following Type III bursts, at lower frequencies |
 | 6 | **Nothing** | Spectrogram with no identifiable burst activity |
-| 7 | **RFI / Artifact** | Radio frequency interference or instrumental artifacts |
+| 7 | **CASA / Sintillation** | Cassetopia A  |
 
 > **Multi-label:** A single spectrogram can contain multiple simultaneous burst types (e.g., Type II + Type III during a solar flare), making this a **multi-label** classification problem — not a simple single-class task.
 

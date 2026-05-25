@@ -122,9 +122,9 @@ These scripts orchestrate training on **SURF Spider** (A100 GPU cluster). Each h
 | Folder | Description |
 |:---|:---|
 | `Jupyter Notebook files/` | **Exploratory analysis & data engineering notebooks.** Includes: extending the original 3-class dataset to 6/7 classes, appending additional Type 2 labels, RFI/background noise analysis, concatenating GAN-generated H5 files into the main dataset, and an initial baseline model prototype. |
-| `USED Fetch data from NOAA (works)/` | **Solar event catalogue ingestion.** Python scripts to query the NOAA solar event database, download event records (2022–2024), and clean the resulting JSON catalogues. These catalogues provide the ground-truth timestamps used to label LOFAR observations. |
-| `USED Labelling the timestamps from NOAA,Type2,Prev labels/` | **Label assignment pipeline.** Jupyter notebook and CSV outputs that match NOAA solar event timestamps to LOFAR observation windows, resolving multi-label assignments (e.g., a spectrogram containing both a Type 2 and Type 3 burst). |
-| `Unlabelled_Dataset/` | **Unlabelled data processing pipeline.** Scripts and batch jobs to build, filter, and orient the unlabelled LOFAR dynamic spectrum dataset used during SSL pretraining. Includes `make_unlabelled_from_timestamps.py`, `filter_unlabelled.py`, `orient_unlabelled_unf.py`, and their corresponding `.sbatch` files. |
+| `Fetch data from NOAA/` | **Solar event catalogue ingestion.** Python scripts to query the NOAA solar event database, download event records (2022–2024), and clean the resulting JSON catalogues. These catalogues provide the ground-truth timestamps used to label LOFAR observations. |
+| `Create Labelled_Dataset/` | **Label assignment pipeline.** Jupyter notebook and CSV outputs that match NOAA solar event timestamps to LOFAR observation windows, resolving multi-label assignments (e.g., a spectrogram containing both a Type 2 and Type 3 burst). |
+| `Create Unlabelled_Dataset/` | **Unlabelled data processing pipeline.** Scripts and batch jobs to build, filter, and orient the unlabelled LOFAR dynamic spectrum dataset used during SSL pretraining. Includes `make_unlabelled_from_timestamps.py`, `filter_unlabelled.py`, `orient_unlabelled_unf.py`, and their corresponding `.sbatch` files. |
 
 ### 📄 Other Files
 

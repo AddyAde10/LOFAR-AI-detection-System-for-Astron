@@ -232,7 +232,7 @@ python train_multilabel_ssl.py \
 
 </div>
 
-> **Key takeaway:** SSL with synthetic augmentation on filtered data achieves the best overall μF1 of **0.8986** and macro-F1 of **0.8397**, substantially outperforming all supervised baselines and prior literature.
+> **Key takeaway:** SSL with synthetic augmentation on filtered data achieves the best overall μF1 of **0.8986** and macro-F1 of **0.8397**, substantially outperforming all supervised baselines and prior literature. Usagage of reliable and practical scenario based metrics in this work guarantee good deployable performance. 
 
 ---
 

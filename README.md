@@ -4,12 +4,6 @@
 
 ### *Automated Multi-Label Classification of Solar Radio Bursts from LOFAR Dynamic Spectra*
 
-[![Python 3.9+](https://img.shields.io/badge/Python-3.9%2B-3776AB?logo=python&logoColor=white)](https://python.org)
-[![PyTorch](https://img.shields.io/badge/PyTorch-2.x-EE4C2C?logo=pytorch&logoColor=white)](https://pytorch.org)
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![HPC: SURF Spider](https://img.shields.io/badge/HPC-SURF%20Spider-0072C6)](https://www.surf.nl/en/services/spider)
-[![ASTRON](https://img.shields.io/badge/ASTRON-LOFAR-FF6F00)](https://www.astron.nl/)
-
 ---
 
 > **Can an AI learn to "see" solar radio bursts — even the rarest ones — from raw LOFAR spectrograms?**

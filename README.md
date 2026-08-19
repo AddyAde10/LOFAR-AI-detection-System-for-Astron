@@ -295,11 +295,12 @@ Data integrity is paramount:
 ## 📖 Citation
 
 If you use this work, please cite:
+Note - The paper is currently in the process of publishing. 
 
 ```bibtex
 @misc{lofar_ai_srb_2026,
   author       = {Ade et al.},
-  title        = {From Dynamic Spectra to Burst Catalogs: An AI-Driven Framework for Automated Identification and Classification of Solar Radio Bursts},
+  title        = {An AI-Driven Framework for Automated Identification and Classification of Solar Radio Bursts},
   year         = {2026},
   publisher    = {arXiv},
   howpublished = {\url{https://arxiv.org/abs/2604.08515}}

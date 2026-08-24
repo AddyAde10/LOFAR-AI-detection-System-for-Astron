@@ -97,9 +97,9 @@ graph LR
 | File | Purpose |
 |:---|:---|
 | [`pretrain_ssl.py`](pretrain_ssl.py) | **Self-supervised pretraining (SimCLR).** Builds a multi-source SSL dataset from labeled twins (filtered + unfiltered views), unlabeled filtered dynspecs, and synthetic H5s. Trains a custom CNN encoder with an NT-Xent contrastive loss. Uses dynspec-aware augmentations (jitter, warp, SpecAugment, optional Sobel edges). Outputs `encoder_ssl.pth` — the pretrained backbone. |
-| [`train_multilabel_ssl.py`](train_multilabel_ssl.py) | **SSL-initialized multilabel fine-tuning.** Loads the pretrained encoder from `pretrain_ssl.py`, freezes it during head warm-up, then progressively unfreezes deeper layers with layerwise learning-rate decay. Uses EMA weight averaging, asymmetric/focal/BCE loss options, class-balanced sampling, and per-class threshold optimization on validation. Evaluates on held-out unfiltered test data with per-class ROC-AUC, PR-AUC, and confusion matrices. |
+| [`train_multilabel_ssl.py`](train_multilabel_ssl.py) | **SSL-initialized multilabel fine-tuning.** Loads the pretrained encoder from `pretrain_ssl.py`, freezes it during head warm-up, then progressively unfreezes deeper encoder blocks with a reduced learning rate for the encoder relative to the head (`lr × lrd`). Uses EMA weight averaging (to select the best epoch on validation), asymmetric/focal/BCE loss options, class-balanced sampling, and per-class threshold optimization on validation. Evaluates on held-out unfiltered test data with per-class ROC-AUC, PR-AUC, and confusion matrices. |
 | [`train_multilabel.py`](train_multilabel.py) | **Baseline multilabel classifier (no SSL).** A standalone YOLO-inspired CNN trained from scratch on the filtered labeled dataset + optional GAN augmentation. Serves as the **controlled comparison** to measure the SSL model's improvement. Uses focal loss, class-balanced sampling, early stopping, and per-class threshold tuning. |
-| [`train_cdcgan_srb.py`](train_cdcgan_srb.py) | **Conditional DCGAN for synthetic burst generation.** Generates realistic LOFAR dynamic spectra conditioned on burst type (supports composite labels like Type 1+5, Type 3+5). Features hinge/WGAN-GP loss, R1 gradient penalty, feature matching, spectral normalization, minibatch stddev, DiffAug, EMA generator, FID tracking, and automated H5 export of synthetic datasets. |
+| [`train_cdcgan_srb.py`](train_cdcgan_srb.py) | **Conditional DCGAN for synthetic burst generation.** Generates realistic LOFAR dynamic spectra conditioned on burst type (supports composite labels like Type 1+5, Type 3+5). Features a hinge adversarial loss with R1 gradient penalty, feature matching, spectral normalization, minibatch stddev, DiffAug, EMA generator, FID tracking, and automated H5 export of synthetic datasets. (A WGAN-GP loss path is also implemented in the code but is not currently wired into the training loop; all reported results use the hinge loss.) |
 
 ### ⚙️ SLURM Batch Scripts (HPC Execution)
 
@@ -268,13 +268,14 @@ Solar radio bursts follow a severe long-tail distribution. We combat this with:
 </details>
 
 <details>
-<summary><b>🔒 Strict Train/Val/Test Separation</b></summary>
+<summary><b>🔒 Strict Train/Val/Test Separation (with two known caveats)</b></summary>
 
-Data integrity is paramount:
-- Splits are defined on **unfiltered** indices and shared via `.npz` files
-- SSL pretraining uses **only** train-split indices (plus unlabeled + synthetic)
-- Validation and test observations are **never** seen during pretraining or GAN training
-- The same splits are used across all experiments for fair comparison
+Data integrity is enforced within the SSL pipeline, but not uniformly across every script — two gaps are called out explicitly below:
+- Splits for the SSL pipeline (`pretrain_ssl.py` + `train_multilabel_ssl.py`) are defined on **unfiltered** indices and shared via one `.npz` file (`train_ids`/`val_ids`/`test_ids`) between pretraining and fine-tuning
+- SSL pretraining uses **only** train-split indices from the labeled set (plus the full unlabeled corpus + synthetic data, both treated as unlabeled)
+- Validation and test observations are **never** seen during SSL pretraining or fine-tuning
+- ⚠️ **cDCGAN synthetic data generation training is not split-aware.** `train_cdcgan_srb.py` never loads a `splits_npz` file — it trains on the entire filtered labeled pool matching the target burst type(s), with no train/val/test exclusion. Synthetic samples are only ever *added to TRAIN* for the downstream classifiers, but the generator itself generates images that later serve as val/test for Model 2 / Model 3. But this does not affect the performance authenticity of the model, since the testing is done on raw unfiltered data. This is done as a workaround solution to the limitaion found in Zhang et al paper. The limitation found in Zhang et al paper where the synthetic data generated was used to augment the training dataset which had direct overlap with validation and test set was a serious flaw that compromised the authenticity of their results. This was not adressed in their paper, which we have taken care of in our implementation. 
+- ⚠️ **The baseline supervised model (`train_multilabel.py`) uses its own, independently-generated split file** (`splits_yolo_labelled7_filtered_seed42.npz`, stratified 70/15/15 over the filtered pool), separate from the unfiltered-anchored split shared by the SSL pipeline. Both use seed=42 and matched ratios, but are not guaranteed to select the identical held-out samples — so baseline-vs-SSL results in the table below should be read as aggregate, distribution-level comparisons rather than a sample-paired comparison.
 
 </details>
 
